@@ -2,8 +2,8 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/ngyewch/go-spectrogram/audio"
-	"github.com/ngyewch/go-spectrogram/spectrogram"
+	"github.com/ngyewch/go-spectrogram/pkg/audio"
+	"github.com/ngyewch/go-spectrogram/pkg/spectrogram"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 	"image"

@@ -1,7 +1,7 @@
 package audio
 
 import (
-	"github.com/ngyewch/go-spectrogram/wave"
+	"github.com/ngyewch/go-spectrogram/pkg/wave"
 	"io"
 	"os"
 )

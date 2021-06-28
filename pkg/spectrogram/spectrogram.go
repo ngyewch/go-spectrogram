@@ -4,7 +4,7 @@ import (
 	"errors"
 	"github.com/mjibson/go-dsp/fft"
 	"github.com/mjibson/go-dsp/window"
-	"github.com/ngyewch/go-spectrogram/audio"
+	"github.com/ngyewch/go-spectrogram/pkg/audio"
 	"math"
 )
 
