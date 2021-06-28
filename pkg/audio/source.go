@@ -2,7 +2,9 @@ package audio
 
 import (
 	"fmt"
-	"path/filepath"
+	"github.com/gabriel-vasile/mimetype"
+	"io"
+	"os"
 )
 
 type Source interface {
@@ -17,13 +19,36 @@ type Info struct {
 }
 
 func ReadFromFile(path string) (Source, error) {
-	ext := filepath.Ext(path)
+	mimeType, err := DetectMimeTypeFromFile(path)
+	if err != nil {
+		return nil, err
+	}
+	fmt.Println(mimeType)
 
-	if ext == ".wav" {
+	if mimeType == "audio/wav" {
 		return ReadWAVFromFile(path)
-	} else if ext == ".flac" {
+	} else if mimeType == "audio/flac" {
 		return ReadFLACFromFile(path)
 	}
 
-	return nil, fmt.Errorf("unsupported file extension: %s", ext)
+	return nil, fmt.Errorf("unsupported MIME type: %s", mimeType)
+}
+
+func DetectMimeTypeFromFile(path string) (string, error) {
+	f, err := os.Open(path)
+	if err != nil {
+		return "", err
+	}
+	defer f.Close()
+
+	return DetectMimeTypeFromReader(f)
+}
+
+func DetectMimeTypeFromReader(reader io.Reader) (string, error) {
+	fileMimeType, err := mimetype.DetectReader(reader)
+	if err != nil {
+		return "", err
+	}
+
+	return fileMimeType.String(), nil
 }
