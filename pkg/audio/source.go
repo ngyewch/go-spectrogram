@@ -23,7 +23,6 @@ func ReadFromFile(path string) (Source, error) {
 	if err != nil {
 		return nil, err
 	}
-	fmt.Println(mimeType)
 
 	if mimeType == "audio/wav" {
 		return ReadWAVFromFile(path)
