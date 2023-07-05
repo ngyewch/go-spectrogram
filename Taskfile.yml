@@ -1,0 +1,63 @@
+version: '3'
+
+tasks:
+  clean:
+    desc: Clean
+    cmds:
+      - rm -rf dist
+
+  build:
+    desc: Build
+    cmds:
+      - goreleaser build --snapshot --clean
+
+  build-release:
+    desc: Build release
+    cmds:
+      - goreleaser build --clean
+
+  dependencyUpdates:
+    desc: Show dependency updates
+    deps: [ install-go-mod-outdated, install-gomajor ]
+    cmds:
+      - go mod download
+      - go mod tidy
+      - go list -u -m -json all | go-mod-outdated -update -direct
+      #- gomajor list
+
+  install-gomajor:
+    cmds:
+      - go install github.com/icholy/gomajor@v0.9.5
+      - asdf reshim golang
+    status:
+      - asdf which gomajor
+
+  install-go-mod-outdated:
+    cmds:
+      - go install github.com/psampaz/go-mod-outdated@v0.9.0
+      - asdf reshim golang
+    status:
+      - asdf which go-mod-outdated
+
+  install-staticcheck:
+    cmds:
+      - go install honnef.co/go/tools/cmd/staticcheck@2023.1.3
+      - asdf reshim golang
+    status:
+      - asdf which staticcheck
+
+  install-golds:
+    cmds:
+      - go install go101.org/golds@v0.6.5
+    status:
+      - asdf which golds
+
+  golds:
+    deps: [ install-golds ]
+    cmds:
+      - golds -nouses -only-list-exporteds -render-doclinks -theme=dark -wdpkgs-listing=solo ./...
+
+  staticcheck:
+    deps: [ install-staticcheck ]
+    cmds:
+      - staticcheck ./...
