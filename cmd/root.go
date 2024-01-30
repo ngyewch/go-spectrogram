@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/ngyewch/go-spectrogram/pkg/audio"
 	"github.com/ngyewch/go-spectrogram/pkg/spectrogram"
+	versionInfoCobra "github.com/ngyewch/go-versioninfo/cobra"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 	"image"
@@ -122,6 +123,8 @@ func init() {
 	rootCmd.Flags().Float64Var(&relativeMinDecibels, "relative-min-db", 0, "Relative min decibels.")
 	rootCmd.Flags().Float64Var(&relativeMaxDecibels, "relative-max-db", 0, "Relative max decibels.")
 	rootCmd.Flags().StringVar(&colorMapName, "color-map", "inferno", "Color map.")
+
+	versionInfoCobra.AddVersionCmd(rootCmd, nil)
 }
 
 func initConfig() {
